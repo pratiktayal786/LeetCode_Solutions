@@ -9,6 +9,6 @@ public:
         }
         if(nums[n-1] > nums[0]) count++;
         
-        return count == 1 || count == 0;
+        return count <= 1;
     }
 };
