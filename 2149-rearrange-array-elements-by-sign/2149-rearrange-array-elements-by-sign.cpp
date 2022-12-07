@@ -2,21 +2,19 @@ class Solution {
 public:
     vector<int> rearrangeArray(vector<int>& arr) {
         
-        vector<int> v1, v2;
         int n = arr.size();
+        vector<int> newArr(n, 0);
+        int a = 0, b = 1;
         for(int i = 0; i < n; i++){
-            if(arr[i] > 0) v1.push_back(arr[i]);
-            else v2.push_back(arr[i]);
-        }
-        int a = 0, b = 0;
-        for(int i = 0; i < n; i++){
-            if(i%2 == 0){
-                arr[i] = v1[a++];
+            if(arr[i] > 0){
+                newArr[a] = arr[i];
+                a += 2;
             }
             else{
-                arr[i] = v2[b++];
+                newArr[b] = arr[i];
+                b += 2;
             }
         }
-        return arr;
+        return newArr;
     }
 };
