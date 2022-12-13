@@ -2,32 +2,15 @@ class Solution {
 public:
     int maxProduct(vector<int>& nums) {
         
-        int n = nums.size();
-        int maxleft = nums[0], maxright = nums[n-1];
+        int promin = nums[0], promax = nums[0], result = nums[0];
         
-        int prod = 1, zeropresent = 0;
-        
-        for(int i = 0; i < n; i++){
-            prod *= nums[i];
-            if(prod == 0){
-                zeropresent = 1;
-                prod = 1;
-                continue;
-            }
-            maxleft = max(maxleft, prod);
+        for(int i = 1; i < nums.size(); i++){
+            int temp = max({nums[i], promin*nums[i], promax*nums[i]});
+            promin = min({nums[i], promin*nums[i], promax*nums[i]});
+            promax = temp;
+            
+            result = max(result, promax);
         }
-        
-        prod = 1;
-        for(int j = n-1; j >= 0; j--){
-            prod *= nums[j];
-            if(prod == 0){
-                zeropresent = 1;
-                prod = 1;
-                continue;
-            }
-            maxright = max(maxright, prod);
-        }
-        if(zeropresent) return max(max(maxleft, maxright), 0);
-        return max(maxleft, maxright);
+        return result;
     }
 };
