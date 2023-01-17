@@ -10,13 +10,38 @@ class Solution {
 public:
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
         
-        ListNode *p1 = headA;
-        ListNode *p2 = headB;
+        if(!headA || !headB) return NULL;
         
-        while(p1 != p2){
-            p1 = p1 == NULL ? headB : p1->next;
-            p2 = p2 == NULL ? headA : p2->next;
+        int l1 = 0, l2 = 0;
+        ListNode *p1 = headA, *p2 = headB;
+        
+        while(p1){
+            l1++;
+            p1 = p1->next;
         }
-        return p1;
+        while(p2){
+            l2++;
+            p2 = p2->next;
+        }
+        int diff = abs(l1-l2);
+        p1 = headA, p2 = headB;
+        
+        if(l1 > l2){
+            while(diff--){
+                p1 = p1->next;
+            }
+        }
+        else{
+            while(diff--){
+                p2 = p2->next;
+            }
+        }
+        
+        while(p1 && p2){
+            if(p1 == p2) return p1;
+            p1 = p1->next;
+            p2 = p2->next;
+        }
+        return NULL;
     }
 };
