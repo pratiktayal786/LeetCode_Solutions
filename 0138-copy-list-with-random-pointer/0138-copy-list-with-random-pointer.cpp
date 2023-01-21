@@ -18,43 +18,20 @@ class Solution {
 public:
     Node* copyRandomList(Node* head) {
         
-        unordered_map<Node*, int> oriMap;
+        map<Node*, Node*> mp;
         Node *temp = head;
-        int ind = 0;
         while(temp){
-            oriMap[temp] = ind++;
-            temp = temp->next;
-        }
-        
-        Node *copyHead = NULL;
-        Node *cur = copyHead;
-        unordered_map<int, Node*> copyMap;
-        temp = head;
-        ind = 0;
-        
-        while(temp){
-            Node *t = new Node(temp->val);
-            if(copyHead == NULL){
-                copyHead = t;
-                cur = t;
-            }
-            else{
-                cur->next = t;
-                cur = cur->next;
-            }
-            copyMap[ind++] = cur;
+            mp[temp] = new Node(temp->val);
             temp = temp->next;
         }
         
         temp = head;
-        cur = copyHead;
         while(temp){
             
-            if(temp->random == NULL) cur->random = NULL;
-            else cur->random = copyMap[oriMap[temp->random]];
-            cur = cur->next;
+            mp[temp]->next = mp[temp->next];
+            mp[temp]->random = mp[temp->random];
             temp = temp->next;
         }
-        return copyHead;
+        return mp[head];
     }
 };
