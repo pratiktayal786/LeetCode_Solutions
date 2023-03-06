@@ -2,23 +2,19 @@ class Solution {
 public:
     int trap(vector<int>& height) {
         
-        int leftmax = 0, rightmax = 0;
-        int l = 0, r = height.size()-1;
-        int ans = 0;
+        int n = height.size();
+        int res = 0;
+        stack<int> stk;
+        int i = 0;
         
-        while(l <= r){
-            
-            if(height[l] <= height[r]){
-                if(height[l] >= leftmax) leftmax = height[l];
-                else ans += leftmax-height[l];
-                l++;
-            }
+        while(i < n){
+            if(stk.empty() || height[i] <= height[stk.top()]) stk.push(i++);
             else{
-                if(height[r] >= rightmax) rightmax = height[r];
-                else ans += rightmax-height[r];
-                r--;
+                int topN = stk.top();
+                stk.pop();
+                res += stk.empty() ? 0 : (min(height[stk.top()], height[i])-height[topN])*(i-stk.top()-1);
             }
         }
-        return ans;
+        return res;
     }
 };
