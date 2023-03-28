@@ -3,29 +3,17 @@ public:
     int leastInterval(vector<char>& tasks, int n) {
         
         unordered_map<char,int> mp;
-        for(auto i : tasks) mp[i]++;
+        int count = 0;
         
-        priority_queue<int> pq;
-        for(auto i : mp) pq.push(i.second);
-        
-        int ans = 0;
-        
-        while(!pq.empty()){
-            
-            vector<int> temp;
-            
-            for(int i = 0; i <= n; i++){
-                if(!pq.empty()){
-                    temp.push_back(pq.top());
-                    pq.pop();
-                }
-            }
-            
-            for(int i = 0; i < temp.size(); i++){
-                if(--temp[i] > 0) pq.push(temp[i]);
-            }
-            ans += pq.empty() ? temp.size() : n+1;
+        for(auto i : tasks) {
+            mp[i]++;
+            count = max(count, mp[i]);
         }
-        return ans;
+        
+        int ans = (count-1)*(n+1);
+        for(auto i : mp){
+            if(i.second == count) ans++;
+        }
+        return max((int)tasks.size(), ans);
     }
 };
