@@ -12,23 +12,6 @@
 class Solution {
 public:
     
-    void solve(TreeNode *node, int val){
-        TreeNode *root = node;
-        if(val < root->val && root->left){
-            insertIntoBST(root->left, val);
-        }
-        else{
-            root->left = new TreeNode(val);
-            return;
-        }
-        if(val > root->val && root->right){
-            insertIntoBST(root->right, val);
-        }
-        else{
-            root->right = new TreeNode(val);
-            return;
-        }
-    }
     TreeNode* insertIntoBST(TreeNode* root, int val) {
         if(!root) return new TreeNode(val);
         if(val < root->val){
