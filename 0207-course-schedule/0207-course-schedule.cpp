@@ -1,28 +1,30 @@
 class Solution {
 public:
-    bool iscycle(vector<int> adj[],vector<int> &vis,int id){
-        if(vis[id]==1)
-            return true;
-        if(vis[id]==0){
-            vis[id]=1;
-            for(auto edge : adj[id]){
-                if(iscycle(adj,vis,edge))
-                    return true;
+    
+    bool isCycle(vector<int> adj[], vector<int> &vis, int i){
+        if(vis[i] == 1) return true;
+        
+        if(vis[i] == 0){
+            vis[i] = 1;
+            for(auto j : adj[i]){
+                if(isCycle(adj, vis, j)) return true;
             }
         }
-        vis[id] = 2;
+        vis[i] = 2;
         return false;
     }
     bool canFinish(int n, vector<vector<int>>& pre) {
         vector<int> adj[n];
-        for(auto edge : pre)
-            adj[edge[1]].push_back(edge[0]);
         vector<int> vis(n,0);
         
-        for(int i=0;i<n;i++){
-            if(iscycle(adj,vis,i))
-                return false;
+        for(auto i : pre){
+            adj[i[0]].push_back(i[1]);
         }
+        
+        for(int i = 0; i < n; i++){
+            if(isCycle(adj, vis, i)) return false;
+        }
+        
         return true;
     }
 };
