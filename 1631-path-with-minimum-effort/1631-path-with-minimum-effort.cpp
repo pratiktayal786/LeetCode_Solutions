@@ -16,7 +16,6 @@ public:
             pq.pop();
             int x = xy.first;
             int y = xy.second;
-            if(dist[x][y] < weight) continue;
             if(x == n-1 && y == m-1) return weight;
             for(auto [dx,dy] : dirs){
                 int i = dx+x;
