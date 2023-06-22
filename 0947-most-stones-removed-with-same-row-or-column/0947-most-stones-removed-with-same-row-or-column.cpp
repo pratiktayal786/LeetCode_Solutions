@@ -49,30 +49,48 @@ public:
 };
 class Solution {
 public:
+    
+    vector<int> parent;
+    vector<int> size;
+    
+    int find(int x){
+        if(parent[x] == x) return x;
+        return parent[x] = find(parent[x]);
+    }
+    
+    void Union(int u, int v){
+        int pu = find(u);
+        int pv = find(v);
+        parent[pv] = pu;
+    }
+
     int removeStones(vector<vector<int>>& stones) {
         int maxRow = 0;
         int maxCol = 0;
         int n = stones.size();
-        for (auto it : stones) {
-            maxRow = max(maxRow, it[0]);
-            maxCol = max(maxCol, it[1]);
+        for(auto i : stones){
+            maxRow = max(maxRow, i[0]);
+            maxCol = max(maxCol, i[1]);
         }
-        DisjointSet ds(maxRow + maxCol + 1);
-        unordered_map<int, int> stoneNodes;
-        for (auto it : stones) {
-            int nodeRow = it[0];
-            int nodeCol = it[1] + maxRow + 1;
-            ds.unionBySize(nodeRow, nodeCol);
-            stoneNodes[nodeRow] = 1;
-            stoneNodes[nodeCol] = 1;
+        // DisjointSet ds(maxRow+maxCol+1);
+        parent.resize(maxRow+maxCol+2);
+        size.resize(maxRow+maxCol+2);
+        for(int i = 0; i <= maxRow+maxCol+1; i++){
+            parent[i] = i;
+            size[i] = 1;
         }
-
+        unordered_map<int,int> stoneNode;
+        for(auto i : stones){
+            int r = i[0];
+            int c = i[1]+maxRow+1;
+            Union(r, c);
+            stoneNode[r] = 1;
+            stoneNode[c] = 1;
+        }
         int cnt = 0;
-        for (auto it : stoneNodes) {
-            if (ds.findUPar(it.first) == it.first) {
-                cnt++;
-            }
+        for(auto i : stoneNode){
+            if(find(i.first) == i.first) cnt++;
         }
-        return n - cnt;
+        return n-cnt;
     }
 };
