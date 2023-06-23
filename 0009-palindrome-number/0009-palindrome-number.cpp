@@ -1,15 +1,16 @@
 class Solution {
 public:
     bool isPalindrome(int x) {
+        
+        int y = x;
         if(x < 0) return false;
-        vector<int> nums;
+        int rem = 0;
+        long long rev = 0;
         while(x){
-            nums.push_back(x%10);
+            rem = x%10;
+            rev = rev*10 + rem;
             x /= 10;
         }
-        for(int i = 0; i < nums.size(); i++){
-            if(nums[i] != nums[nums.size()-i-1]) return false;
-        }
-        return true;
+        return y == rev;
     }
 };
