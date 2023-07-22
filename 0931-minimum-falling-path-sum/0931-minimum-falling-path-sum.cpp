@@ -3,10 +3,10 @@ public:
     int minFallingPathSum(vector<vector<int>>& arr) {
         
         int n = arr.size();
-        vector<vector<int>> dp(n, vector<int> (n, 0));
+        vector<int> upper(n), cur(n, 0);
         
         for(int i = 0; i < n; i++){
-            dp[0][i] = arr[0][i];
+            upper[i] = arr[0][i];
         }
         
         for(int i = 1; i < n; i++){
@@ -14,15 +14,16 @@ public:
                 
                 int left = INT_MAX, right = INT_MAX;
                 
-                int up = dp[i-1][j];
-                if(j-1 >= 0) left = dp[i-1][j-1];
-                if(j+1 < n) right = dp[i-1][j+1];
-                dp[i][j] = arr[i][j] + min({up, left, right});
+                int up = upper[j];
+                if(j-1 >= 0) left = upper[j-1];
+                if(j+1 < n) right = upper[j+1];
+                cur[j] = arr[i][j] + min({up, left, right});
             }
+            upper = cur;
         }
         
         int ans = INT_MAX;
-        for(auto i : dp[n-1]){
+        for(auto i : upper){
             ans = min(ans, i);
         }
         return ans;
